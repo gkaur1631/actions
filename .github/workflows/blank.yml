@@ -21,7 +21,7 @@ jobs:
         entry_point: 'processErrorMessage'
         source_dir: '../../modules/regional_ingestion_jobs_kickoff/functions/dataflow_error_logs/'
         project_id: 'international-gramercy'
-        env_vars_file: './env.yaml'
+        env_vars: PROJECT_ID=international-gramercy,DB_USER=liveramp,DB_NAME=ingestiondb ,DB_SOCKET_DIR=/cloudsql,INGESTION_SQL_INSTANCE_NAME= international-gramercy:europe-west1:international-ingestion-db-prod-cloudsql ,SLACK_WEBHOOK_URL=slack-webhook-url, INGESTION_DB_PSWD_URL=ingestion_db_pswd_url
         region: 'europe-west1'
         max_instances: 1
         event_trigger_type: providers/cloud.pubsub/eventTypes/topic.publish
