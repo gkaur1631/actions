@@ -1,0 +1,28 @@
+on: [push]
+jobs:
+  ingestion_errors_slack:
+    runs-on: ubuntu-latest
+    name: dataflowerrors
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+
+    steps:
+    - uses: actions/checkout@v3
+    
+
+    - id: 'deploy'
+      uses: 'google-github-actions/deploy-cloud-functions@v0'
+      with:
+        name: 'dataflow-errors-slack'
+        description: 'Parsing Dataflow ingestion job errors and notify via Slack'
+        runtime: 'python37'
+        entry_point: 'processErrorMessage'
+        source_dir: '../../modules/regional_ingestion_jobs_kickoff/functions/dataflow_error_logs/'
+        project_id: 'international-gramercy'
+        env_vars_file: './env.yaml'
+        region: 'europe-west1'
+        max_instances: 1
+        event_trigger_type: providers/cloud.pubsub/eventTypes/topic.publish
+        event_trigger_resource: projects//topics/dataflow-error-logs-prod
